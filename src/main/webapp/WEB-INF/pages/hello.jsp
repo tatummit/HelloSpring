@@ -5,5 +5,10 @@
 <html>
 <body>
 	<h1>Message : ${msg}</h1>
+	<FORM action="image.html" method="post"">
+	<INPUT type="radio" name="sex" value="Male"> Male<BR>
+    <INPUT type="radio" name="sex" value="Female"> Female<BR>
+    <INPUT type="submit" value="Send"> <INPUT type="reset">
+	</FORM>
 </body>
 </html>
