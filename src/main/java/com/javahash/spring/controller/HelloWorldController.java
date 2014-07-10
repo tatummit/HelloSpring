@@ -1,20 +1,19 @@
 package com.javahash.spring.controller;
 
+import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.apache.commons.httpclient.HttpClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-//import org.springframework.web.bind.annotation.RequestParam;
-
+import java.net.URISyntaxException;
 /**
  *
  */
@@ -51,11 +50,17 @@ public class HelloWorldController {
                     method = RequestMethod.POST
                     )
     public void proxy(@RequestParam(value = "sex",
-                      required = true) String sex,HttpServletRequest request,HttpServletResponse response) throws IOException {
+                      required = true) String sex,HttpServletResponse response)
+            throws IOException, URISyntaxException {
 
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        HttpRequest
-        factory.createRequest();
+        HttpClient client = new HttpClient();
+        HttpMethod method = new PostMethod("http://localhost:10000/hello/image.html");
+        method.setQueryString("sex="+sex);
+        int re = client.executeMethod(method);
+        System.out.println(re);
+        IOUtils.copy(method.getResponseBodyAsStream(), response.getOutputStream());
+
+
 
     }
 
